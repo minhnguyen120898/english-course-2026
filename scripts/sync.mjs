@@ -91,3 +91,24 @@ export async function syncVault({ vaultDir, contentDir }) {
 
   return { synced, skipped, assets };
 }
+
+// Run as CLI: `npm run sync`
+if (import.meta.url === `file://${process.argv[1]}`) {
+  syncVault({ vaultDir: DEFAULT_VAULT_DIR, contentDir: DEFAULT_CONTENT_DIR })
+    .then(({ synced, skipped, assets }) => {
+      console.log(
+        `Synced ${synced} notes, ${assets} attachments. ` +
+          `Skipped ${skipped} unpublished.`,
+      );
+      if (synced === 0) {
+        console.warn(
+          "WARNING: 0 notes had `publish: true`. The site will be empty. " +
+            "Add `publish: true` frontmatter to notes you want to publish.",
+        );
+      }
+    })
+    .catch((err) => {
+      console.error(err.message);
+      process.exit(1);
+    });
+}
