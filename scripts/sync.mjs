@@ -6,6 +6,8 @@ import matter from "gray-matter";
 export const DEFAULT_VAULT_DIR =
   "/Users/minhnn/Library/Mobile Documents/iCloud~md~obsidian/Documents/English Course";
 export const DEFAULT_CONTENT_DIR = new URL("../content/", import.meta.url).pathname;
+export const DEFAULT_STATIC_DIR = new URL("../content-static/", import.meta.url)
+  .pathname;
 
 async function walkMarkdown(dir, base = dir, acc = []) {
   const entries = await readdir(dir, { withFileTypes: true });
@@ -22,6 +24,25 @@ async function walkMarkdown(dir, base = dir, acc = []) {
 
 const ATTACHMENT_RE = /!\[[^\]]*\]\(([^)]+)\)|!\[\[([^\]]+)\]\]/g;
 
+// Audio/video attachments are excluded from publishing (often personal recordings).
+const EXCLUDED_ATTACHMENT_EXT = new Set([
+  ".m4a",
+  ".mp3",
+  ".wav",
+  ".aac",
+  ".ogg",
+  ".flac",
+  ".mp4",
+  ".mov",
+  ".m4v",
+  ".webm",
+]);
+
+function extName(ref) {
+  const dot = ref.lastIndexOf(".");
+  return dot === -1 ? "" : ref.slice(dot).toLowerCase();
+}
+
 function extractAttachments(raw) {
   const found = new Set();
   let m;
@@ -30,12 +51,37 @@ function extractAttachments(raw) {
     if (!ref) continue;
     if (ref.startsWith("http://") || ref.startsWith("https://")) continue;
     if (ref.endsWith(".md")) continue;
-    found.add(ref.split("#")[0].split("|")[0].trim());
+    const clean = ref.split("#")[0].split("|")[0].trim();
+    if (EXCLUDED_ATTACHMENT_EXT.has(extName(clean))) continue;
+    found.add(clean);
   }
   return [...found];
 }
 
-export async function syncVault({ vaultDir, contentDir }) {
+async function copyTree(srcDir, destDir) {
+  let count = 0;
+  let entries;
+  try {
+    entries = await readdir(srcDir, { withFileTypes: true });
+  } catch {
+    return 0; // no static dir; nothing to copy
+  }
+  for (const entry of entries) {
+    const src = join(srcDir, entry.name);
+    const dest = join(destDir, entry.name);
+    if (entry.isDirectory()) {
+      await mkdir(dest, { recursive: true });
+      count += await copyTree(src, dest);
+    } else {
+      await mkdir(dirname(dest), { recursive: true });
+      await writeFile(dest, await readFile(src));
+      count += 1;
+    }
+  }
+  return count;
+}
+
+export async function syncVault({ vaultDir, contentDir, staticDir }) {
   try {
     const s = await stat(vaultDir);
     if (!s.isDirectory()) throw new Error("not a directory");
@@ -53,6 +99,12 @@ export async function syncVault({ vaultDir, contentDir }) {
 
   await rm(contentDir, { recursive: true, force: true });
   await mkdir(contentDir, { recursive: true });
+
+  // Copy durable static pages (e.g. index.md) that survive every sync.
+  let staticFiles = 0;
+  if (staticDir) {
+    staticFiles = await copyTree(staticDir, contentDir);
+  }
 
   const mdFiles = await walkMarkdown(vaultDir);
   let synced = 0;
@@ -93,16 +145,20 @@ export async function syncVault({ vaultDir, contentDir }) {
     }
   }
 
-  return { synced, skipped, assets };
+  return { synced, skipped, assets, staticFiles };
 }
 
 // Run as CLI: `npm run sync`
 if (import.meta.url === `file://${process.argv[1]}`) {
-  syncVault({ vaultDir: DEFAULT_VAULT_DIR, contentDir: DEFAULT_CONTENT_DIR })
-    .then(({ synced, skipped, assets }) => {
+  syncVault({
+    vaultDir: DEFAULT_VAULT_DIR,
+    contentDir: DEFAULT_CONTENT_DIR,
+    staticDir: DEFAULT_STATIC_DIR,
+  })
+    .then(({ synced, skipped, assets, staticFiles }) => {
       console.log(
-        `Synced ${synced} notes, ${assets} attachments. ` +
-          `Skipped ${skipped} unpublished.`,
+        `Synced ${synced} notes, ${assets} attachments, ` +
+          `${staticFiles} static pages. Skipped ${skipped} unpublished.`,
       );
       if (synced === 0) {
         console.warn(

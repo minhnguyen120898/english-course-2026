@@ -68,6 +68,27 @@ test("copies attachments referenced by published notes", async () => {
   await rm(content, { recursive: true, force: true });
 });
 
+test("excludes audio/video attachments from publishing", async () => {
+  const vault = await makeVault();
+  const content = await makeContent();
+  await mkdir(join(vault, "assets"), { recursive: true });
+  await writeFile(join(vault, "assets", "pic.png"), "PNGDATA");
+  await writeFile(join(vault, "assets", "voice.m4a"), "AUDIODATA");
+  await writeFile(
+    join(vault, "note.md"),
+    "---\npublish: true\n---\n![pic](assets/pic.png)\n![[assets/voice.m4a]]\n",
+  );
+
+  const result = await syncVault({ vaultDir: vault, contentDir: content });
+
+  const assetFiles = await readdir(join(content, "assets"));
+  assert.deepEqual(assetFiles, ["pic.png"]);
+  assert.equal(result.assets, 1);
+
+  await rm(vault, { recursive: true, force: true });
+  await rm(content, { recursive: true, force: true });
+});
+
 test("throws a clear error when the vault path is missing", async () => {
   const content = await makeContent();
   await assert.rejects(
