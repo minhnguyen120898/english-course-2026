@@ -32,3 +32,18 @@ test("includes notes with publish: true and excludes others", async () => {
   await rm(vault, { recursive: true, force: true });
   await rm(content, { recursive: true, force: true });
 });
+
+test("wipes stale files from content before syncing", async () => {
+  const vault = await makeVault();
+  const content = await makeContent();
+  await writeFile(join(content, "stale.md"), "old content");
+  await writeFile(join(vault, "fresh.md"), "---\npublish: true\n---\n# Fresh\n");
+
+  await syncVault({ vaultDir: vault, contentDir: content });
+
+  const files = await readdir(content);
+  assert.deepEqual(files.sort(), ["fresh.md"]);
+
+  await rm(vault, { recursive: true, force: true });
+  await rm(content, { recursive: true, force: true });
+});

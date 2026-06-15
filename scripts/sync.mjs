@@ -21,6 +21,9 @@ async function walkMarkdown(dir, base = dir, acc = []) {
 }
 
 export async function syncVault({ vaultDir, contentDir }) {
+  await rm(contentDir, { recursive: true, force: true });
+  await mkdir(contentDir, { recursive: true });
+
   const mdFiles = await walkMarkdown(vaultDir);
   let synced = 0;
   let skipped = 0;
