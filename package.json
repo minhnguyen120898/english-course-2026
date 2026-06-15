@@ -17,6 +17,8 @@
     "check": "tsc --noEmit && npx prettier . --check",
     "format": "npx prettier . --write",
     "test": "tsx --test",
+    "sync": "node scripts/sync.mjs",
+    "test:sync": "node --test scripts/",
     "profile": "0x -D prof ./quartz/bootstrap-cli.mjs build --concurrency=1"
   },
   "engines": {
@@ -49,7 +51,6 @@
     "flexsearch": "^0.8.205",
     "github-slugger": "^2.0.0",
     "globby": "^16.1.0",
-    "gray-matter": "^4.0.3",
     "hast-util-to-html": "^9.0.5",
     "hast-util-to-jsx-runtime": "^2.3.6",
     "hast-util-to-string": "^3.0.1",
@@ -107,6 +108,7 @@
     "@types/ws": "^8.18.1",
     "@types/yargs": "^17.0.35",
     "esbuild": "^0.27.2",
+    "gray-matter": "^4.0.3",
     "prettier": "^3.8.1",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3"
