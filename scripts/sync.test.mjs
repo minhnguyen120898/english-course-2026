@@ -67,3 +67,24 @@ test("copies attachments referenced by published notes", async () => {
   await rm(vault, { recursive: true, force: true });
   await rm(content, { recursive: true, force: true });
 });
+
+test("throws a clear error when the vault path is missing", async () => {
+  const content = await makeContent();
+  await assert.rejects(
+    () => syncVault({ vaultDir: "/no/such/vault/path", contentDir: content }),
+    /Vault path not found or unreadable/,
+  );
+  await rm(content, { recursive: true, force: true });
+});
+
+test("reports zero published notes without throwing", async () => {
+  const vault = await makeVault();
+  const content = await makeContent();
+  await writeFile(join(vault, "draft.md"), "---\npublish: false\n---\n# Draft\n");
+
+  const result = await syncVault({ vaultDir: vault, contentDir: content });
+  assert.equal(result.synced, 0);
+
+  await rm(vault, { recursive: true, force: true });
+  await rm(content, { recursive: true, force: true });
+});
