@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { mkdtemp, mkdir, writeFile, rm, readdir } from "node:fs/promises";
+import { mkdtemp, mkdir, writeFile, rm, readdir, chmod } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { syncVault } from "./sync.mjs";
@@ -75,6 +75,22 @@ test("throws a clear error when the vault path is missing", async () => {
     /Vault path not found or unreadable/,
   );
   await rm(content, { recursive: true, force: true });
+});
+
+test("throws a clear error when the vault exists but is unreadable", async () => {
+  const vault = await makeVault();
+  const content = await makeContent();
+  await chmod(vault, 0o000); // exists + statable, but not readable
+  try {
+    await assert.rejects(
+      () => syncVault({ vaultDir: vault, contentDir: content }),
+      /Vault path not found or unreadable/,
+    );
+  } finally {
+    await chmod(vault, 0o700); // restore so cleanup can remove it
+    await rm(vault, { recursive: true, force: true });
+    await rm(content, { recursive: true, force: true });
+  }
 });
 
 test("reports zero published notes without throwing", async () => {

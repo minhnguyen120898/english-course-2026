@@ -39,11 +39,15 @@ export async function syncVault({ vaultDir, contentDir }) {
   try {
     const s = await stat(vaultDir);
     if (!s.isDirectory()) throw new Error("not a directory");
+    // stat() can succeed on an iCloud dir we still can't read; probe readability.
+    await readdir(vaultDir);
   } catch {
     throw new Error(
       `Vault path not found or unreadable: ${vaultDir}\n` +
         "If the path exists, grant your terminal Full Disk Access in " +
-        "System Settings > Privacy & Security > Full Disk Access, then retry.",
+        "System Settings > Privacy & Security > Full Disk Access, then retry.\n" +
+        "(System Settings > Privacy & Security > Full Disk Access > enable your " +
+        "terminal app, e.g. Terminal or iTerm, then fully quit and reopen it.)",
     );
   }
 
