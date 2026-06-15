@@ -47,3 +47,23 @@ test("wipes stale files from content before syncing", async () => {
   await rm(vault, { recursive: true, force: true });
   await rm(content, { recursive: true, force: true });
 });
+
+test("copies attachments referenced by published notes", async () => {
+  const vault = await makeVault();
+  const content = await makeContent();
+  await mkdir(join(vault, "assets"), { recursive: true });
+  await writeFile(join(vault, "assets", "pic.png"), "PNGDATA");
+  await writeFile(
+    join(vault, "note.md"),
+    "---\npublish: true\n---\n![pic](assets/pic.png)\n",
+  );
+
+  const result = await syncVault({ vaultDir: vault, contentDir: content });
+
+  const assetFiles = await readdir(join(content, "assets"));
+  assert.deepEqual(assetFiles, ["pic.png"]);
+  assert.equal(result.assets, 1);
+
+  await rm(vault, { recursive: true, force: true });
+  await rm(content, { recursive: true, force: true });
+});
