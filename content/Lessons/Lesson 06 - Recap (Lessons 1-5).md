@@ -127,7 +127,7 @@ In a discussion or debate, react before you give your reason:
 1. **Record your answers** (1–2 min each) → [[Homework 06 - P1]]
 2. **Listening** — Book Unit 6
 3. **Pronunciation** — practice on the Elsa App
-4. **Shadowing video** — watch the class Zalo video, record yourself saying the full text clearly and naturally, send before next lesson
+4. **Shadowing video** — watch the class Zalo video, record yourself saying the full text clearly and naturally, send before next lesson → [[Homework 07 - Shadowing]]
 5. 🎤 **Pair presentation** — "Why do some people never travel?" → [[Homework 06 - Travel Presentation]]
 
 ---

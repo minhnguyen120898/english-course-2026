@@ -35,7 +35,7 @@ I think it **depends on the city**. In big cities like Hanoi or Saigon, people s
 
 - [ ] **Listening** — Book Unit 6
 - [ ] **Pronunciation** — practice on the Elsa App
-- [ ] **Shadowing video** — record the full text clearly and naturally, send to Zalo before next lesson
+- [ ] **Shadowing video** — record the full text clearly and naturally, send to Zalo before next lesson → [[Homework 07 - Shadowing]]
 - [ ] 🎤 **Pair presentation** — prepare [[Homework 06 - Travel Presentation]] (2–3 min, no notes, with Q&A)
 
 ---

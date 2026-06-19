@@ -15,8 +15,8 @@ publish: true
 
 ## 🗣️ Full Script (~2.5 minutes)
 
-**[Intro]**
-Hello everyone. Travel is something many of us love — but the truth is, a lot of people never travel at all. Today my partner and I want to explain three main reasons why. 
+**[Intro — open with a question]**
+Hello everyone. Before we begin, let me ask you a quick question — please **raise your hand**: who here loves travelling, or travels whenever they get the chance? _(Pause — look around at the hands.)_ Wow, quite a lot of us! Travel sounds wonderful to most people — but the truth is, a lot of people never travel at all. Today my partner and I want to explain three main reasons why.
 
 **[Reason 1 — Money]**
 The first and biggest reason is **money**. Travelling can really **cost an arm and a leg** — flights, hotels, food, and travel insurance all add up quickly. For many families, that money is needed for more important things, like rent, school, or saving for the future. So they decide that a holiday is simply a luxury they can't afford right now.
@@ -36,9 +36,9 @@ So in conclusion, people don't avoid travel because they are lazy. Usually it's 
 
 Remember only the keywords. The full sentences will come naturally once you know the order.
 
-1. **Intro** → "Many love travel, but many never travel — 3 reasons."
+1. **Intro** → ✋ "Raise your hand — who loves travelling / travels often?" (pause, look around) → "Travel sounds wonderful, but many never travel — 3 reasons."
 2. **Money** 💰 → cost an arm and a leg → flights/hotels/food → needed for rent, school, savings → a luxury.
-3. **Fear & comfort** 😨 → afraid of flying / language → won't step out of comfort zone → home feels safe.
+3. **Fear & comfort** 😨 → afraid of flying / language → won't step out of comfort zone → home feels safe -> a long flight, jet lag, and a strange culture -> stressful rather than exciting.
 4. **Health, age & duties** 🧓 → trips tiring/risky → too busy → breadwinner / children + parents.
 5. **Conclusion** ✅ → "Not lazy — money, fear, health/duties. Cheaper travel → more people explore. Thank you."
 
