@@ -31,6 +31,18 @@ Yes, in all likelihood social media will become even more important in the futur
 
 ---
 
+## Q4. Have you ever tried a digital detox? What was it like? If not, would you like to try it?
+
+Yes, I've tried a small digital detox a few times. On some weekends, I turn off my notifications and take a break from social media for a whole day. At first it feels strange — I keep reaching for my phone out of habit, and I even get a little FOMO, worried I'm missing some trending topic. But after a few hours, my mind feels calmer and I have more time for real life, like reading or meeting friends. I'd definitely like to do it more regularly, maybe one full day every week.
+
+---
+
+## Q5. Name the 3 most useful AI tools for you, and explain why you use them so regularly.
+
+The three AI tools I use most are ChatGPT, Claude, and DeepSeek. I use **ChatGPT** almost every day to explain ideas, fix my writing, and answer quick questions — it's like having a smart assistant beside me. I use **Claude** for longer, more careful work, such as reading documents and helping me write and organize my projects. And I use **DeepSeek** because it's cheaper than the others for API billing, so it's perfect for a job that runs 24/7. It reports to me through Telegram messages, and I can even control it back through the same message channel, which is very convenient. I use them so regularly because they make my work faster and cheaper, but of course I still check their answers myself, since AI is a tool — it works best when you already have a strong base.
+
+---
+
 ## ✅ Other Homework Tasks
 
 - [ ] **Listening** — Book Unit 7
